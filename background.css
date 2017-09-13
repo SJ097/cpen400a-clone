@@ -1,3 +1,30 @@
-ul li {
-	background-color: Aqua
+#navigationMenu li {
+	text-align: center;
+	height: 20px;
+	width: 100px;
+	background-color: #00FFFF; /* Aqua */
+	margin: 0 0 10px 0;
+	list-style-type: none; /* Removes bullet points */
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 20px;
+	padding-left: 20px;
 }
+
+#productList {
+	width: 60%;
+	text-align: center;
+	background-color: #00FFFF;
+	margin: 0 10px 10px 0;
+	
+}
+
+.product {
+	width: 33%;
+	display: inline-block; /* To display horizontally */
+}
+
+/*
+When using id: #
+When using class: .
+*/
