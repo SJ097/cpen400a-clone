@@ -32,7 +32,7 @@ transform:scale(0.65,0.65);
 text-align: center;
 font-size: 25px;
 margin-bottom: 30px;
-padding-right: 7px;
+padding: 5px;
 position:relative;
 /* margin-right: 40px; */
 /*width: 33%;
@@ -47,9 +47,6 @@ background-color: #A9A9A9;
 #mainContent{
 display: flex;
 margin-top: -100px;
-}
-
-.productName{
 }
 
 img.resize {
@@ -97,140 +94,19 @@ margin: 0 auto;
 width: 1000px;
 }
 
-.hidden1{
+h2{
 display:none;
 }
 
-.hidden2{
-display:none;
-}
-
-.hidden3{
-display:none;
-}
-.hidden4{
-display:none;
-}
-.hidden5{
-display:none;
-}
-.hidden6{
-display:none;
-}
-.hidden7{
-display:none;
-}
-.hidden8{
-display:none;
-}
-.hidden9{
-display:none;
-}
-.hidden10{
-display:none;
-}
-.hidden11{
-display:none;
-}
-.hidden12{
-display:none;
-}
-
-.product:hover .hidden1{
+.product:hover h2 {
 display:block;
 position: absolute;
-bottom:30px;
+bottom:0px;
 z-index:1;
 background-color: #A9A9A9;
 width: 220px;
 }
 
-.product:hover .hidden2 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-
-.product:hover .hidden3 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden4 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden5 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden6 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden7 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden8 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden9 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden10 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden11 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
-}
-.product:hover .hidden12 {
-display:block;
-position: absolute;
-bottom:30px;
-z-index:1;
-background-color: #A9A9A9;
-width: 220px;
+h2 span { 
+	font-size: 20px;
 }
