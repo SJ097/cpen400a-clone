@@ -35,6 +35,11 @@ padding: 10px 10px 10px 10px;
 #navigationMenu{
 list-style-type: none;
 }
+#content{
+/* background-color: black; */
+width: 1000px;
+margin: 0 auto;
+}
 
 #productList{
 background-color: #00FFFF;
