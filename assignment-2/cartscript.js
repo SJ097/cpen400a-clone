@@ -14,7 +14,7 @@ var products = {
 	Tent:5
 };
 
-var inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 3000);
+var inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
 
 function addToCart(productName) {
 	if(products[productName] > 0){
@@ -32,7 +32,7 @@ function addToCart(productName) {
 		alert("Sorry, " + productName + " is out of stock");
 	}
 	clearInterval(inactiveTime);
-	
+	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
 };
 
 function removeFromCart(productName) {
@@ -50,6 +50,7 @@ function removeFromCart(productName) {
 		console.log(cart);
 		console.log(products);
 		clearInterval(inactiveTime);
+		inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
 };
 
 function showCart(){
@@ -57,5 +58,11 @@ function showCart(){
 	for(var productName in cart){
 		output+= productName + ": " + cart[productName] + "\n";
 	}
+	if(output == ""){
+		alert("The cart is empty");
+	}else{	
 	alert(output);
+	}
+	clearInterval(inactiveTime);
+	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
 };
