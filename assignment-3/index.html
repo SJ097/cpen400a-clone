@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="F:\CPEN 400A\Assignment-1 Materials\style.css">
+<link rel="stylesheet" href="style.css">
 <script src="cartscript.js">  </script>
 <title> UBC Bookstore </title>
 </head>
@@ -14,8 +14,50 @@
 <div id="welcomeBanner"> <img class="resize2" src="Images\PrimarySignature_ex_768.png" alt="UBC BookStore"></div>
 </header>
 
-<div id="cartBackground" onclick="showCart()"> <img class ="ShowCart" src="Images\cart.png" alt="Cart"> </div>
-<!-- <button> </button> -->
+<!-- <div id="cartBackground" onclick="showCart()"> <img class ="ShowCart" src="Images\cart.png" alt="Cart"> -->
+<button id="myBtn"><img class ="ShowCart" src="Images\cart.png" alt="Cart"></button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+<div class="modal-content">
+    <span class="close">&times;</span>
+	<h2> Bonjour je suis canadien français </h2>
+	<p>Box 1 <button class="plus" onclick='addToCart("Box1")'>+</button>  <button class="minus" onclick='removeFromCart("Box1")'>-</button></p>
+    <p>Box 2 <button class="plus" onclick='addToCart("Box2")'>+</button>  <button class="minus" onclick='removeFromCart("Box2")'>-</button></p>
+	<p>Clothes 1 <button class="plus" onclick='addToCart("Clothes1")'>+</button>  <button class="minus" onclick='removeFromCart("Clothes1")'>-</button></p>
+	<p>Clothes 2 <button class="plus" onclick='addToCart("Clothes2")'>+</button>  <button class="minus" onclick='removeFromCart("Clothes2")'>-</button></p>
+	<p>Jeans <button class="plus" onclick='addToCart("Jeans")'>+</button>  <button class="minus" onclick='removeFromCart("Jeans")'>-</button></p>
+	<p>Keyboard <button class="plus" onclick='addToCart("Keyboard")'>+</button>  <button class="minus" onclick='removeFromCart("Keyboard")'>-</button></p>
+	<p>KeyboardCombo <button class="plus" onclick='addToCart("KeyboardCombo")'>+</button>  <button class="minus" onclick='removeFromCart("KeyboardCombo")'>-</button></p>
+	<p>Mouse <button class="plus" onclick='addToCart("Mice")'>+</button>  <button class="minus" onclick='removeFromCart("Mice")'>-</button></p>
+	<p>PC 1 <button class="plus" onclick='addToCart("PC1")'>+</button>  <button class="minus" onclick='removeFromCart("PC1")'>-</button></p>
+	<p>PC 2 <button class="plus" onclick='addToCart("PC2")'>+</button>  <button class="minus" onclick='removeFromCart("PC2")'>-</button></p>
+	<p>PC 3 <button class="plus" onclick='addToCart("PC3")'>+</button>  <button class="minus" onclick='removeFromCart("PC3")'>-</button></p>
+	<p>Tent <button class="plus" onclick='addToCart("Tent")'>+</button>  <button class="minus" onclick='removeFromCart("Tent")'>-</button></p>
+	<button id="checkout">Checkout</button>
+</div>
+</div>
+
+<script> <!-- Will be added to .js file when code is finalized -->
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+</script>
 
 <div id="mainContent">
 
@@ -48,7 +90,7 @@
 </div>
 
 <footer id="footer">
-<span> Contact Akshat and Sathya for further queries </span>
+<!-- <span> Contact Akshat and Sathya for further queries </span> -->
 </footer>
 
 </div>

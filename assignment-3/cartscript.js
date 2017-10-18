@@ -15,6 +15,9 @@ var totalPrice = 0;
 	Tent:5
 }; */
 
+window.onload = function(remain) {
+		document.getElementById('footer').innerHTML = inactiveTime();
+}
 
 var Product = function(name, price, imageUrl){
 	this.name = name;
@@ -78,7 +81,25 @@ var products = {
 	
 };
 
-//var inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
+var inactiveTime =  function() {
+	var remain = 300;
+	var interval;
+	
+	if (remain == 0) {
+		alert("Hey there! Are you still planning to buy something?");
+		remain = 300;
+		clearInterval(interval);
+	}
+	
+	else {
+		clearInterval(interval);
+		interval = setInterval(--remain, 1000);
+		//clearInterval(interval);
+	}
+	
+	return remain;
+	
+}
 
 function addToCart(productName) {
 	if(products[productName].quantity > 0){
@@ -102,8 +123,8 @@ function addToCart(productName) {
 	} else{
 		alert("Sorry, " + productName + " is out of stock");
 	}
-	/* clearInterval(inactiveTime);
-	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
+	/*clearInterval(inactiveTime);
+	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 3000);*/
 };
 
 function removeFromCart(productName) {
