@@ -1,5 +1,6 @@
 var cart = {};
 var totalPrice = 0;
+var flag = 0;
 /* var products = {
 	Box1:5,
 	Box2:5,
@@ -15,9 +16,21 @@ var totalPrice = 0;
 	Tent:5
 }; */
 
-window.onload = function(remain) {
-		document.getElementById('footer').innerHTML = inactiveTime();
+
+function inactiveTime() {
+	var footer = document.getElementById('timer');
+	var number = footer.innerHTML;
+	if (number == 0 && flag == 0) {
+		alert("Hey there! Are you still planning to buy something?");
+		flag = 1;
+	}
+	if (number > 0) {
+		number--;
+	}
+	footer.innerHTML = number;
 }
+
+setInterval(inactiveTime, 1000);
 
 var Product = function(name, price, imageUrl){
 	this.name = name;
@@ -25,9 +38,16 @@ var Product = function(name, price, imageUrl){
 	this.imageUrl = imageUrl;
 };
 
+
 Product.prototype.computeNetPrice = function(quantity){
 	return (this.price*quantity);
 };
+
+
+function totalPrice() {
+
+	document.getElementByID('myBtn').innerHTML = "Cart ($25)";
+}
 
 var products = {
 	Box1:{
@@ -81,8 +101,8 @@ var products = {
 	
 };
 
-var inactiveTime =  function() {
-	var remain = 300;
+//var inactiveTime =  document.getElementById("footer");/*function() {
+	/*var remain = 300;
 	var interval;
 	
 	if (remain == 0) {
@@ -99,7 +119,20 @@ var inactiveTime =  function() {
 	
 	return remain;
 	
+}*/
+
+/*var inactiveTime = function() {
+
+var time = 300;
+
+setTimeout( function() {
+	--time;
+}, 1000);
+return time;
 }
+*/
+
+
 
 function addToCart(productName) {
 	if(products[productName].quantity > 0){
@@ -123,6 +156,9 @@ function addToCart(productName) {
 	} else{
 		alert("Sorry, " + productName + " is out of stock");
 	}
+	var footer = document.getElementById('timer');
+	footer.innerHTML = 300;
+	flag = 0;
 	/*clearInterval(inactiveTime);
 	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 3000);*/
 };
@@ -143,6 +179,9 @@ function removeFromCart(productName) {
 		}
 		console.log(cart);
 		console.log("Quantity Remaining Of " +products[productName].product.name + " " +products[productName].quantity);
+		var footer = document.getElementById('timer');
+		footer.innerHTML = 300;
+		flag = 0;
 		/* clearInterval(inactiveTime);
 		inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };
@@ -157,6 +196,9 @@ function showCart(){
 	}else{	
 	alert(output);
 	}
+	var footer = document.getElementById('timer');
+	footer.innerHTML = 300;
+	flag = 0;
 	/* clearInterval(inactiveTime);
 	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };

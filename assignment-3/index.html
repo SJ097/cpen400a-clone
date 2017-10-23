@@ -6,7 +6,7 @@
 <title> UBC Bookstore </title>
 </head>
 
-<body>
+<body onload="inactiveTime()" onload = "totalPrice()">
 
 <div id="content">
 <header id="header">
@@ -15,14 +15,14 @@
 </header>
 
 <!-- <div id="cartBackground" onclick="showCart()"> <img class ="ShowCart" src="Images\cart.png" alt="Cart"> -->
-<button id="myBtn"><img class ="ShowCart" src="Images\cart.png" alt="Cart"></button>
+<button id="myBtn">Cart($0)<!-- <img class ="ShowCart" src="Images\cart.png" alt="Cart"> --></button>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
 <div class="modal-content">
     <span class="close">&times;</span>
 	<h2> Bonjour je suis canadien français </h2>
-	<p>Box 1 <button class="plus" onclick='addToCart("Box1")'>+</button>  <button class="minus" onclick='removeFromCart("Box1")'>-</button></p>
+	<p>Box 1  <button class="plus" onclick='addToCart("Box1")'>+</button>  <button class="minus" onclick='removeFromCart("Box1")'>-</button></p>
     <p>Box 2 <button class="plus" onclick='addToCart("Box2")'>+</button>  <button class="minus" onclick='removeFromCart("Box2")'>-</button></p>
 	<p>Clothes 1 <button class="plus" onclick='addToCart("Clothes1")'>+</button>  <button class="minus" onclick='removeFromCart("Clothes1")'>-</button></p>
 	<p>Clothes 2 <button class="plus" onclick='addToCart("Clothes2")'>+</button>  <button class="minus" onclick='removeFromCart("Clothes2")'>-</button></p>
@@ -89,7 +89,9 @@ span.onclick = function() {
 </div>
 </div>
 
-<footer id="footer">
+<footer>
+<div id="timer">301
+</div>
 <!-- <span> Contact Akshat and Sathya for further queries </span> -->
 </footer>
 
