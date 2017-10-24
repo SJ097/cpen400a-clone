@@ -1,6 +1,5 @@
 var cart = {};
 var totalPrice = 0;
-var flag = 0;
 /* var products = {
 	Box1:5,
 	Box2:5,
@@ -16,6 +15,7 @@ var flag = 0;
 	Tent:5
 }; */
 
+var flag = 0;
 
 function inactiveTime() {
 	var footer = document.getElementById('timer');
@@ -38,16 +38,9 @@ var Product = function(name, price, imageUrl){
 	this.imageUrl = imageUrl;
 };
 
-
 Product.prototype.computeNetPrice = function(quantity){
 	return (this.price*quantity);
 };
-
-
-function totalPrice() {
-
-	document.getElementByID('myBtn').innerHTML = "Cart ($25)";
-}
 
 var products = {
 	Box1:{
@@ -101,38 +94,37 @@ var products = {
 	
 };
 
-//var inactiveTime =  document.getElementById("footer");/*function() {
-	/*var remain = 300;
-	var interval;
-	
-	if (remain == 0) {
-		alert("Hey there! Are you still planning to buy something?");
-		remain = 300;
-		clearInterval(interval);
-	}
-	
-	else {
-		clearInterval(interval);
-		interval = setInterval(--remain, 1000);
-		//clearInterval(interval);
-	}
-	
-	return remain;
-	
-}*/
-
-/*var inactiveTime = function() {
-
-var time = 300;
-
-setTimeout( function() {
-	--time;
-}, 1000);
-return time;
+var keys = [];
+for(var k in products){ 
+	keys.push(k);
 }
-*/
+console.log(keys);
+/* window.onload = function(){
+var keys = [];
+for(var k in products){ 
+	keys.push(k);
+}
+console.log(keys);
 
+var x = document.getElementsByClassName("removeButton");
+for(var i =0; i<x.length; i++){
+	console.log("inside");
+	x[keys[i]] = x[i];
+	delete x[i];
+	console.log(x);
+};
+}; */
+/* for(var i=0; i<x.length; i++){
+console.log("inside");
+x[keys[i]] = x[i];
+//console.log(x[i]);
+delete x[i];
+			//console.log(x[i]);
+} */
 
+//alert("total " + keys.length + " keys: " + keys);
+
+//var inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000);
 
 function addToCart(productName) {
 	if(products[productName].quantity > 0){
@@ -151,16 +143,47 @@ function addToCart(productName) {
 	//console.log(products[productName].quantity);
 	totalPrice += products[productName].product.price;
 	console.log(totalPrice);
+	document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")"; 
+	var x = document.getElementsByClassName("removeButton");
+	for(var i =0; i<x.length; i++){
+		//console.log("inside");
+		x[keys[i]] = x[i];
+		delete x[i];
+		//console.log(x);
+	};
+	
+	var y = document.getElementsByClassName("addButton");
+	for(var i =0; i<y.length; i++){
+		console.log("inside");
+		y[keys[i]] = y[i];
+		delete y[i];
+		//console.log(x);
+	};
+		
+	if(cart[productName]>0){
+		console.log(x);
+		x[productName].style.display = "flex";
+
+	}
+	
+	if(products[productName].quantity == 0){
+		console.log(y);
+		y[productName].style.display = "none";
+
+	}
+	
+	var t= document.getElementById("cartTable");
 	/* console.log(productName + " = " + products[productName] + " in products");
 	console.log(inactiveTime) */
-	} else{
-		alert("Sorry, " + productName + " is out of stock");
 	}
-	var footer = document.getElementById('timer');
+		var footer = document.getElementById('timer');
 	footer.innerHTML = 300;
 	flag = 0;
-	/*clearInterval(inactiveTime);
-	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 3000);*/
+	/* else{
+		alert("Sorry, " + productName + " is out of stock");
+	} */
+	/* clearInterval(inactiveTime);
+	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };
 
 function removeFromCart(productName) {
@@ -174,31 +197,87 @@ function removeFromCart(productName) {
 			products[productName].quantity +=1;
 			totalPrice -= products[productName].product.price;
 			console.log(totalPrice);
-		} else{
+		    document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")";
+			
+			var x = document.getElementsByClassName("removeButton");
+			for(var i =0; i<x.length; i++){
+				//console.log("inside");
+				x[keys[i]] = x[i];
+				delete x[i];
+				//console.log(x);
+			};
+	
+	var y = document.getElementsByClassName("addButton");
+		for(var i =0; i<y.length; i++){
+			console.log("inside");
+			y[keys[i]] = y[i];
+			delete y[i];
+			//console.log(x);
+		};
+		
+	if(!(cart.hasOwnProperty(productName))){
+		//console.log(x);
+		//console.log("inside");
+		x[productName].style.display = "none";
+
+	}
+	
+	if(products[productName].quantity > 0){
+		//console.log(y);
+		y[productName].style.display = "flex";
+
+	}
+		} /* else{
 			alert("This product does not exist in the cart");
-		}
+		} */
 		console.log(cart);
 		console.log("Quantity Remaining Of " +products[productName].product.name + " " +products[productName].quantity);
-		var footer = document.getElementById('timer');
-		footer.innerHTML = 300;
-		flag = 0;
+		
+			var footer = document.getElementById('timer');
+			footer.innerHTML = 300;
+			flag = 0;
 		/* clearInterval(inactiveTime);
 		inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };
 
 function showCart(){
 	var output = "";
-	for(var productName in cart){
-		output+= productName + ": " + cart[productName] + "\n";
+	var i = 1;
+	for(var productName in products){
+		if (cart.hasOwnProperty(productName)) {
+		document.getElementById(i+"name").innerHTML = productName;
+		document.getElementById(i+"quantity").innerHTML = cart[productName];
+		document.getElementById(i+"price").innerHTML = products[productName].product.computeNetPrice(cart[productName]);
+		i++;
+		}
+		else {
+		document.getElementById(i+"name").innerHTML = "";
+		document.getElementById(i+"quantity").innerHTML = "";
+		document.getElementById(i+"price").innerHTML = "";	
+		}
+		//i++;
 	}
-	if(output == ""){
-		alert("The cart is empty");
-	}else{	
-	alert(output);
-	}
-	var footer = document.getElementById('timer');
+
+		var footer = document.getElementById('timer');
 	footer.innerHTML = 300;
 	flag = 0;
+	
+	 // Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("showCart");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+    modal.style.display = "block";
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+} 
 	/* clearInterval(inactiveTime);
 	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };
@@ -208,3 +287,4 @@ function showCart(){
 /* var box1 = new Product('Box1', 10, 'Images\Box1_$10.png');
 console.log( box1.name ); // Should print "Box1" to the console.
 console.log( box1.computeNetPrice(5) ); // Should print '50' to the console. */
+

@@ -81,7 +81,7 @@ display: flex;
 justify-content: space-around;
 }
 
-#timer{
+#footer{
 background-color: #00FFFF;
 font-size: 20px;
 height: 60px;
@@ -152,7 +152,7 @@ width: 91px;
 height: 34px;
 bottom: 84px;
 right: 10px;
-display: flex;
+display: none;
 align-items: center;
 justify-content: center;
 font-size: 18px;
@@ -162,10 +162,10 @@ cursor: pointer;
 img.ShowCart{
 width: 50px;
 height: 36px;
-/*float: right;*/
+float: right;
 }
 
-#cartBackground{
+/* #cartBackground{
 background-color: #0000FF;
 width: 60px;
 height: 43px;
@@ -173,7 +173,17 @@ border-radius: 47%;
 float: right;
 cursor: pointer;
 display: inline;
+} */
+
+#showCart{
+background-color: #ADFF2F;
+width: 60px;
+height: 43px;
+float: right;
+cursor: pointer;
+display: inline;
 }
+
 
 .modal {
     display: none; /* Hidden by default */
@@ -196,6 +206,7 @@ display: inline;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+	text-align: center;
 }
 
 /* The Close Button */
@@ -213,32 +224,13 @@ display: inline;
     cursor: pointer;
 }
 
-#myBtn {
-	/*width: 50px;
-	height: 36px;
-	float: right;*/
-width: 60px;
-height: 43px;
-border-radius: 47%;
-float: right;
-cursor: pointer;
-display: inline;
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
 }
 
-#checkout {
-	float:bottom;
-}
-
-.minus {
-	float:right;
-	width: 20px;
-	height: 20px;
-	text-align: center;
-}
-
-.plus {
-	float:right;
-	width: 20px;
-	height: 20px;
-	text-align: center;
+#cartTable {
+	margin-left:auto; 
+    margin-right:auto;
 }
