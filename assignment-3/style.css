@@ -165,6 +165,17 @@ height: 36px;
 float: right;
 }
 
+.centered {
+display: none;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 40px;
+z-index: 3;
+color: #8B0000;
+}
+
 /* #cartBackground{
 background-color: #0000FF;
 width: 60px;
