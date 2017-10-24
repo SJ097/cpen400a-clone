@@ -32,6 +32,12 @@ function inactiveTime() {
 
 setInterval(inactiveTime, 1000);
 
+function resetTime() {
+	var footer = document.getElementById('timer');
+	footer.innerHTML = 300;
+	flag = 0;
+}
+
 var Product = function(name, price, imageUrl){
 	this.name = name;
 	this.price = price;
@@ -111,9 +117,7 @@ function addToCart(productName, k) {
 		else{
 				cart[productName] = 1;
 		}
-	/* console.log(cart);
-	console.log(cart[productName]); */
-	/* console.log(productName + " = " + cart[productName] + " in cart"); */
+
 	products[productName].quantity -=1;
 	console.log((products[productName].product.name) + " added");
 	console.log("Price of " + products[productName].product.name + " is " + products[productName].product.price);
@@ -165,9 +169,7 @@ function addToCart(productName, k) {
 	}
 	
 	}
-		var footer = document.getElementById('timer');
-	footer.innerHTML = 300;
-	flag = 0;
+	resetTime();
 };
 
 function removeFromCart(productName) {
@@ -209,14 +211,14 @@ function removeFromCart(productName) {
 	for(var i =0; i<a.length; i++){
 		a[keys[i]] = a[i];
 		delete a[i];
-	};
+		};
 		
 	if(!(cart.hasOwnProperty(productName))){
 		//console.log(x);
 		//console.log("inside");
 		x[productName].style.display = "none";
 
-	}
+		}
 	
 	if(products[productName].quantity > 0){
 		//console.log(y);
@@ -224,15 +226,13 @@ function removeFromCart(productName) {
 		z[productName].style.display = "none";
 		a[productName].style.display = "block";
 		
-	}
 		}
+	}
 		
-		console.log(cart);
-		console.log("Quantity Remaining Of " +products[productName].product.name + " " +products[productName].quantity);
+	console.log(cart);
+	console.log("Quantity Remaining Of " +products[productName].product.name + " " +products[productName].quantity);
 		
-			var footer = document.getElementById('timer');
-			footer.innerHTML = 300;
-			flag = 0;
+	resetTime();
 			
 };
 
@@ -241,65 +241,50 @@ var bouton = ['', '', '', '', '', '', '', '', '', '', '', ''];
 var boutonm = ['', '', '', '', '', '', '', '', '', '', '', ''];
 var pro = ['', '', '', '', '', '', '', '', '', '', '', '', ''];
 var go = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-var prodToNum = {
-	Box1: 1,
-	Box2: 2
-};
 
 function showCart(){
 	var output = "";
-	//var bouton = ['', '', '', '', '', '', '', '', '', '', '', ''];
 	var i = 0;
-	//var foo = 0;
 
 	for(var productName in products){
 		
 		if (cart.hasOwnProperty(productName)) {
-		document.getElementById(i+"name").innerHTML = productName;
-		document.getElementById(i+"quantity").innerHTML = cart[productName];
-		document.getElementById(i+"price").innerHTML = "$" + products[productName].product.computeNetPrice(cart[productName]);
+			document.getElementById(i+"name").innerHTML = productName;
+			document.getElementById(i+"quantity").innerHTML = cart[productName];
+			document.getElementById(i+"price").innerHTML = "$" + products[productName].product.computeNetPrice(cart[productName]);
 		
-		pro[i] = productName;
+			pro[i] = productName;
 		
-		if (b4u[i] == 0) {
-		go[i] = 1;
-		//bouton[i] = productName;
+			if (b4u[i] == 0) {
+				go[i] = 1;
 		
-		bouton[i] = document.createElement("BUTTON");
-		var positive = document.createTextNode("+");
-		bouton[i].appendChild(positive);
+				bouton[i] = document.createElement("BUTTON");
+				var positive = document.createTextNode("+");
+				bouton[i].appendChild(positive);
 
-		// 2. Append somewhere
 		
-		document.getElementById(i+"plus").appendChild(bouton[i]);
-		//boutonm[i] = productName;
+				document.getElementById(i+"plus").appendChild(bouton[i]);
 		
-		boutonm[i] = document.createElement("BUTTON");
-		var negative = document.createTextNode("-");
-		boutonm[i].appendChild(negative);
+				boutonm[i] = document.createElement("BUTTON");
+				var negative = document.createTextNode("-");
+				boutonm[i].appendChild(negative);
 
-		// 2. Append somewhere
+				
 		
-		document.getElementById(i+"minus").appendChild(boutonm[i]);
-		b4u[i] = 1;
-		}
+				document.getElementById(i+"minus").appendChild(boutonm[i]);
+				b4u[i] = 1;
+			}
 		
-		i++;
+			i++;
 		}
 		else {
-		document.getElementById(i+"name").innerHTML = "";
-		document.getElementById(i+"quantity").innerHTML = "";
-		document.getElementById(i+"price").innerHTML = "";
-		//document.getElementById(i+"plus").innerHTML = "";
-		//document.getElementById(i+"minus").innerHTML = "";
-		go[i] = 0;
-		}
+			document.getElementById(i+"name").innerHTML = "";
+			document.getElementById(i+"quantity").innerHTML = "";
+			document.getElementById(i+"price").innerHTML = "";
 		
-		/*if (document.getElementById(i+"name").innerHTML === "") {
-		  document.getElementById(i+"plus").innerHTML = "";
-		  document.getElementById(i+"minus").innerHTML = "";
-		}*/
-		//i++;
+		
+			go[i] = 0;
+		}
 	}
 
 	for (var j = i; j < 12; j++) {
@@ -310,37 +295,30 @@ function showCart(){
 		document.getElementById(j+"minus").innerHTML = "";
 	}
 	
+	document.getElementById("totalPrice").innerHTML = "$" + totalPrice;
 	
+	resetTime();
 	
-	var footer = document.getElementById('timer');
-	footer.innerHTML = 300;
-	flag = 0;
-	
-	 // Get the modal
-var modal = document.getElementById('myModal');
+	 // Modal code
+	 
+	var modal = document.getElementById('myModal');
 
-// Get the button that opens the modal
-var btn = document.getElementById("showCart");
+	// Modal button
+	var btn = document.getElementById("showCart");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+	// Close modal
+	var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
+	// Display modal when cart button is clicked
     modal.style.display = "block";
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-} 
+	span.onclick = function() {
+		modal.style.display = "none";
+	} 
 
-foo = 0;
-	/* clearInterval(inactiveTime);
-	inactiveTime = setInterval(function(){ alert("Hey there! Are you still planning to buy something?") }, 30000); */
 };
 
 function showModal() {
-	
-	foo = 1;
 	
 	showCart();
 	document.getElementById(i+"plus").innerHTML = "";
@@ -368,10 +346,6 @@ function buttonRemove(i) {
 			for (var j = 0; j < 12; j++)
 				b4u[j] = 0;
 		
-		/*for (var j = i; j < 12; j++) {
-			if (document.getElementById(j+"name").innerHTML = "")
-				b4u[i] = 0;
-		}*/
 		if (bouton[12] != '') {
 			bouton = ['', '', '', '', '', '', '', '', '', '', '', ''];
 			boutonm = ['', '', '', '', '', '', '', '', '', '', '', ''];
@@ -383,6 +357,11 @@ function buttonRemove(i) {
 document.addEventListener('keyup', function(e) {
 	var modal = document.getElementById('myModal');
     if (e.keyCode == 27) {
+		
+		if (!(modal.style.display == "none")) {
+			resetTime();
+		}
+		
         modal.style.display = "none";
     }
 });
