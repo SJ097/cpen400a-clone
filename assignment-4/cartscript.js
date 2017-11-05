@@ -47,7 +47,7 @@ var Product = function(name, price, imageUrl){
 Product.prototype.computeNetPrice = function(quantity){
 	return (this.price*quantity);
 };
-
+/* 
 var products = {
 	Box1:{
 		product: new Product("Box1",10,"Images\Box1_$10.png"),
@@ -99,31 +99,112 @@ var products = {
 	},
 	
 };
+ */
+ 
+/*  var products = {
+	Box1:{},
+	Box2:{},
+	Clothes1:{},
+	Clothes2:{},
+	Jeans:{},
+	Keyboard:{},
+	KeyboardCombo:{},
+	Mice:{},
+	PC1:{},
+	PC2:{},
+	PC3:{},
+	Tent:{},
+	
+}; */
+
+var products = {};
+
+	
+var ajaxGet = function(url, successCallback, errorCallback){
+		console.log("Calling "+url);
+		
+		var limit = 0;
+		
+		function shelverx(){
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", url);
+			xhttp.onload=function() {
+					if (xhttp.status == 200) {
+						var resp = JSON.parse(xhttp.responseText);
+						//console.log(resp.PC1);
+						successCallback(resp);
+				}
+				else{
+					limit++;
+					errorCallback(xhttp.statusText);
+					if (limit < 7) setTimeout( shelverx, 1000 );
+				}
+				 
+			};
+			xhttp.ontimeout = function() {
+			shelverx();
+		};
+			xhttp.timeout = 3000;
+			 //xhttp.open("GET", url, true);
+			 xhttp.send();
+		};
+		shelverx();
+			 
+}
+	
+	
+ajaxGet("https://cpen400a-bookstore.herokuapp.com/products",
+		function(response){
+			console.log(response);
+			//var products = {};
+			alert(response + "SUCCESS");
+			for(var key in response){	
+				if(response.hasOwnProperty(key)){
+					products[key] = response[key];
+				};
+				
+			};
+			console.log(products);
+			keyinitialise();
+		
+			//return response;
+		},
+		function(error){
+			alert(error + "Error");
+			//return error;
+		}
+	);
+
+
 
 var keys = [];
+var keyinitialise = function(){
+
 for(var k in products){ 
 	keys.push(k);
 }
+keys.sort();
 console.log(keys);
+};
 
-function addToCart(productName, k) {
+function addToCart(productName) {
 	if(products[productName].quantity > 0){
 		if(cart.hasOwnProperty(productName)){
 				cart[productName] +=1; 
 		} 
 		
-		else if (k == 0) return;
+		//else if (k == 0) return;
 		
 		else{
 				cart[productName] = 1;
 		}
 
 	products[productName].quantity -=1;
-	console.log((products[productName].product.name) + " added");
+	/* console.log((products[productName].product.name) + " added");
 	console.log("Price of " + products[productName].product.name + " is " + products[productName].product.price);
-	console.log("Quantity of " +products[productName].product.name + " in cart is " + cart[productName])
+	console.log("Quantity of " +products[productName].product.name + " in cart is " + cart[productName]) */
 	//console.log(products[productName].quantity);
-	totalPrice += products[productName].product.price;
+	totalPrice += products[productName].price;
 	console.log(totalPrice);
 	document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")"; 
 	var x = document.getElementsByClassName("removeButton");
@@ -366,3 +447,4 @@ document.addEventListener('keyup', function(e) {
     }
 });
 
+/// Assignment-4 starts
