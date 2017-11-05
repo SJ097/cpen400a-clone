@@ -136,6 +136,7 @@ function checkoutCompare() {
 	
 	var quantityMessage = "";
 	var priceMessage = "";
+
 	
 	for (var a in cart) {
 							
@@ -155,13 +156,12 @@ function checkoutCompare() {
 	if (priceMessage != "")
 		alert(priceMessage);
 		
-	for (var a in products) {
-		products[a].price = productsCompare[a];
-	}
+	for (var a in products)
+		products[a] = productsCompare[a];
 	
 	showCart();
 	
-	//alert("The total cost is $" + totalPrice);
+	alert("The total cost is $" + totalPrice);
 	
 }
 	
@@ -186,6 +186,7 @@ function success(response) {
 			};
 			console.log(products);
 			keyinitialise(products, keys);
+			showPrices();    // changed // To show the prices of the products
 }
 
 function successModal(response) {
@@ -202,6 +203,25 @@ function successModal(response) {
 			};
 			console.log(productsCompare);
 			keyinitialise(productsCompare, keys);
+			showPrices();    // changed // To show the prices of the products
+	
+}
+
+// changed 
+function showPrices(){
+	var prices = document.getElementsByClassName("costPosition");
+	for(var i =0; i<prices.length; i++){
+		prices[keys[i]] = prices[i];
+		delete prices[i];
+		};
+		
+		for(var key in products){	
+				if(products.hasOwnProperty(key)){
+					prices[key].innerHTML = "$" + products[key].price;
+					console.log(prices[key]);
+				};
+				
+			};
 	
 }
 
@@ -226,8 +246,6 @@ function addToCart(productName) {
 		if(cart.hasOwnProperty(productName)){
 				cart[productName] +=1; 
 		} 
-		
-		//else if (k == 0) return;
 		
 		else{
 				cart[productName] = 1;
@@ -345,70 +363,82 @@ function removeFromCart(productName) {
 	}
 		
 	console.log(cart);
-	//console.log("Quantity Remaining Of " +products[productName].product.name + " " +products[productName].quantity);
 		
 	resetTime();
 			
 };
 
-var b4u = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-var bouton = ['', '', '', '', '', '', '', '', '', '', '', ''];
-var boutonm = ['', '', '', '', '', '', '', '', '', '', '', ''];
-var pro = ['', '', '', '', '', '', '', '', '', '', '', '', ''];
-var go = [0,0,0,0,0,0,0,0,0,0,0,0,0];
-
 function showCart(){
 	var output = "";
 	var i = 0;
+	var table = document.getElementById("cartTable");
+	var carey = document.getElementById("total");
 
-	for(var productName in products){
+	while (table.hasChildNodes()) {
 		
-		if (cart.hasOwnProperty(productName)) {
-			document.getElementById(i+"name").innerHTML = productName;
-			document.getElementById(i+"quantity").innerHTML = cart[productName];
-			document.getElementById(i+"price").innerHTML = "$" + (products[productName].price * cart[productName]);
+		if (table.firstChild === table.lastChild)
+			break;
 		
-			pro[i] = productName;
+		table.removeChild(table.firstChild);
 		
-			if (b4u[i] == 0) {
-				go[i] = 1;
+	}
+	
+	var headerNode = document.createElement("tr");
+	var one = document.createElement("th");
+	var two = document.createElement("th");
+	var three = document.createElement("th");
+	var four = document.createElement("th");
+	var five = document.createElement("th");
+	
+	one.innerHTML = "Product";
+	two.innerHTML = "Quantity";
+	three.innerHTML = "Add";
+	four.innerHTML = "Remove";
+	five.innerHTML = "Price";
+	
+	headerNode.appendChild(one);
+	headerNode.appendChild(two);
+	headerNode.appendChild(three);
+	headerNode.appendChild(four);
+	headerNode.appendChild(five);
+	
+	table.insertBefore(headerNode, table.lastChild);
+	
+	var abutton = {};
+	var rbutton = {};
+	
+	for (var productName in cart) {
 		
-				bouton[i] = document.createElement("BUTTON");
-				var positive = document.createTextNode("+");
-				bouton[i].appendChild(positive);
-
+		var newNode = document.createElement("tr");
+		var nom = document.createElement("td");
+		var quant = document.createElement("td");
+		var add = document.createElement("td");
+		abutton[productName] = document.createElement("button");
+		add.appendChild(abutton[productName]);
+		var rem = document.createElement("td");
+		rbutton[productName] = document.createElement("button");
+		rem.appendChild(rbutton[productName]);
+		var prix = document.createElement("td");
 		
-				document.getElementById(i+"plus").appendChild(bouton[i]);
+		nom.innerHTML = productName;
+		quant.innerHTML = cart[productName];
+		abutton[productName].innerHTML = "+";
+		rbutton[productName].innerHTML = "-";
+		prix.innerHTML = "$" + products[productName].price*cart[productName];
 		
-				boutonm[i] = document.createElement("BUTTON");
-				var negative = document.createTextNode("-");
-				boutonm[i].appendChild(negative);
-
+		buttons(productName, abutton, rbutton);
 				
+		newNode.appendChild(nom);
+		newNode.appendChild(quant);
+		newNode.appendChild(add);
+		newNode.appendChild(rem);
+		newNode.appendChild(prix);
 		
-				document.getElementById(i+"minus").appendChild(boutonm[i]);
-				b4u[i] = 1;
-			}
+		table.insertBefore(newNode, table.lastChild);
 		
-			i++;
-		}
-		else {
-			document.getElementById(i+"name").innerHTML = "";
-			document.getElementById(i+"quantity").innerHTML = "";
-			document.getElementById(i+"price").innerHTML = "";
-		
-		
-			go[i] = 0;
-		}
 	}
-
-	for (var j = i; j < 12; j++) {
-		document.getElementById(i+"name").innerHTML = "";
-		document.getElementById(i+"quantity").innerHTML = "";
-		document.getElementById(i+"price").innerHTML = "";
-		document.getElementById(j+"plus").innerHTML = "";
-		document.getElementById(j+"minus").innerHTML = "";
-	}
+	
+	computePrice();
 	
 	document.getElementById("totalPrice").innerHTML = "$" + totalPrice;
 	
@@ -433,39 +463,23 @@ function showCart(){
 
 };
 
-function showModal() {
+function buttons(produit, put, take) {
 	
-	showCart();
-	document.getElementById(i+"plus").innerHTML = "";
-	document.getElementById(i+"minus").innerHTML = "";
-	document.getElementById(i+"plus").appendChild(bouton[i]);
-	document.getElementById(i+"minus").appendChild(boutonm[i]);
+	put[produit].addEventListener("click", function() {addToCart(produit);
+	showCart(); computePrice();});
+	take[produit].addEventListener("click", function() {removeFromCart(produit);
+	showCart(); computePrice();});
+	
 }
 
-function buttonAdd(i, k) {
+function computePrice() {
 	
-	addToCart(pro[i], k);
-}
-
-function buttonRemove(i) {
-	var w = 0;
-	removeFromCart(pro[i]);
-	if (!cart.hasOwnProperty(pro[i])) {
-		delete document.getElementById(i+"plus");
-		
-		
-		for (var product in cart)
-			w++;
-			
-		if (w == 0)
-			for (var j = 0; j < 12; j++)
-				b4u[j] = 0;
-		
-		if (bouton[12] != '') {
-			bouton = ['', '', '', '', '', '', '', '', '', '', '', ''];
-			boutonm = ['', '', '', '', '', '', '', '', '', '', '', ''];
-		}
+	totalPrice = 0;
+	
+	for (var a in cart) {
+		totalPrice += products[a].price*cart[a];
 	}
+	
 }
 
 // Handle ESC key (key code 27)

@@ -18,7 +18,7 @@
 <div id="welcomeBanner"> <img class="resize2" src="Images\PrimarySignature_ex_768.png" alt="UBC BookStore"></div>
 </header>
 
-<button id="showCart" onclick="showModal()"> Cart ($0) </button>
+<button id="showCart" onclick="showCart()"> Cart ($0) </button>
 <!-- <button type="button" onclick="ajaxGet()">Request data</button> -->
 
 <div id="myModal" class="modal">
@@ -26,96 +26,6 @@
     <span class="close">&times;</span>
 	<h2> Cart </h2>
 	<table id="cartTable" onclick = 'showCart()'>
-		<tr>
-			<th>Product</th>
-			<th>Quantity</th>
-			<th id="add">Add</th>
-			<th id="remove">Remove</th>
-			<th>Price</th>
-		</tr>
-		<tr id="0">
-			<td id="0name"></td>
-			<td id="0quantity"></td>
-			<td id="0plus" onclick = 'buttonAdd(0,0)'></td>
-			<td id="0minus" onclick = 'buttonRemove(0)'></td>
-			<td id="0price"></td>
-		</tr>
-		<tr id="1">
-			<td id="1name"></td>
-			<td id="1quantity"></td>
-			<td id="1plus" onclick = 'buttonAdd(1,0)'></td>
-			<td id="1minus" onclick = 'buttonRemove(1)'></td>
-			<td id="1price"></td>
-		</tr>
-		<tr id="2">
-			<td id="2name"></td>
-			<td id="2quantity"></td>
-			<td id="2plus" onclick = 'buttonAdd(2,0)'></td>
-			<td id="2minus" onclick = 'buttonRemove(2)'></td>
-			<td id="2price"></td>
-		</tr>
-		<tr id="3">
-			<td id="3name"></td>
-			<td id="3quantity"></td>
-			<td id="3plus" onclick = 'buttonAdd(3, 0)'></td>
-			<td id="3minus" onclick = 'buttonRemove(3)'></td>
-			<td id="3price"></td>
-		</tr>
-		<tr id="4">
-			<td id="4name"></td>
-			<td id="4quantity"></td>
-			<td id="4plus" onclick = 'buttonAdd(4, 0)'></td>
-			<td id="4minus" onclick = 'buttonRemove(4)'></td>
-			<td id="4price"></td>
-		</tr>
-		<tr id="5">
-			<td id="5name"></td>
-			<td id="5quantity"></td>
-			<td id="5plus" onclick = 'buttonAdd(5, 0)'></td>
-			<td id="5minus" onclick = 'buttonRemove(5)'></td>
-			<td id="5price"></td>
-		</tr><tr id="6">
-			<td id="6name"></td>
-			<td id="6quantity"></td>
-			<td id="6plus" onclick = 'buttonAdd(6, 0)'></td>
-			<td id="6minus" onclick = 'buttonRemove(6)'></td>
-			<td id="6price"></td>
-		</tr>
-		<tr id="7">
-			<td id="7name"></td>
-			<td id="7quantity"></td>
-			<td id="7plus" onclick = 'buttonAdd(7, 0)'></td>
-			<td id="7minus" onclick = 'buttonRemove(7)'></td>
-			<td id="7price"></td>
-		</tr>
-		<tr id="8">
-			<td id="8name"></td>
-			<td id="8quantity"></td>
-			<td id="8plus" onclick = 'buttonAdd(8, 0)'></td>
-			<td id="8minus" onclick = 'buttonRemove(8)'></td>
-			<td id="8price"></td>
-		</tr>
-		<tr id="9">
-			<td id="9name"></td>
-			<td id="9quantity"></td>
-			<td id="9plus" onclick = 'buttonAdd(9, 0)'></td>
-			<td id="9minus" onclick = 'buttonRemove(9)'></td>
-			<td id="9price"></td>
-		</tr>
-		<tr id="10">
-			<td id="10name"></td>
-			<td id="10quantity"></td>
-			<td id="10plus" onclick = 'buttonAdd(10, 0)'></td>
-			<td id="10minus" onclick = 'buttonRemove(10)'></td>
-			<td id="10price"></td>
-		</tr>
-		<tr id="11">
-			<td id="11name"></td>
-			<td id="11quantity"></td>
-			<td id="11plus" onclick = 'buttonAdd(11, 0)'></td>
-			<td id="11minus" onclick = 'buttonRemove(11)'></td>
-			<td id="11price"></td>
-		</tr>
 		<tr id="total">
 			<td>Total Price</td>
 			<td id="black"></td>
