@@ -1,20 +1,5 @@
 var cart = {};
 var totalPrice = 0;
-/* var products = {
-	Box1:5,
-	Box2:5,
-	Clothes1:5,
-	Clothes2:5,
-	Jeans:5,
-	Keyboard:5,
-	KeyboardCombo:5,
-	Mice:5,
-	PC1:5,
-	PC2:5,
-	PC3:5,
-	Tent:5
-}; */
-
 var flag = 0;
 
 function inactiveTime() {
@@ -37,28 +22,6 @@ function resetTime() {
 	footer.innerHTML = 300;
 	flag = 0;
 }
-
-var Product = function(name, price, imageUrl){
-	this.name = name;
-	this.price = price;
-	this.imageUrl = imageUrl;
-};
-
-Product.prototype.computeNetPrice = function(quantity){
-	return (this.price*quantity);
-};
-
-
-function displayPrices() {
-	
-	
-	
-	
-	
-	
-	
-}
-
 
 var products = {};
 var productsCompare = {};
@@ -97,7 +60,6 @@ var ajaxGet = function(url, successCallback, errorCallback){
 }
 
 var ajaxGetCheckout = function(url, successCallback, errorCallback) {
-	//console.log("Calling "+url);
 		
 		var limit = 0;
 		
@@ -107,7 +69,6 @@ var ajaxGetCheckout = function(url, successCallback, errorCallback) {
 			xhttp.onload=function() {
 					if (xhttp.status == 200) {
 						var resp = JSON.parse(xhttp.responseText);
-						//console.log(resp.PC1);
 						successCallback(resp);
 											
 						checkoutCompare();
@@ -124,7 +85,6 @@ var ajaxGetCheckout = function(url, successCallback, errorCallback) {
 			shelverx();
 		};
 			xhttp.timeout = 3000;
-			 //xhttp.open("GET", url, true);
 			 xhttp.send();
 		};
 		shelverx();
@@ -175,7 +135,6 @@ ajaxGet(url,
 function success(response) {
 	
 	console.log(response);
-			//var products = {};
 			alert(response + "SUCCESS");
 			for(var key in response){	
 				if(response.hasOwnProperty(key)){
@@ -185,15 +144,15 @@ function success(response) {
 				
 			};
 			console.log(products);
-			keyinitialise(products, keys);
-			showPrices();    // changed // To show the prices of the products
+			keyinitialise();
+			showPrices(); // To show the prices of the products
 }
 
 function successModal(response) {
 	
 	console.log(response);
 			//var products = {};
-			alert(response + "SUCCESS");
+			//alert(response + "SUCCESS");
 			for(var key in response){	
 				if(response.hasOwnProperty(key)){
 					productsCompare[key] = response[key];
@@ -202,12 +161,9 @@ function successModal(response) {
 				
 			};
 			console.log(productsCompare);
-			keyinitialise(productsCompare, keys);
-			showPrices();    // changed // To show the prices of the products
 	
 }
 
-// changed 
 function showPrices(){
 	var prices = document.getElementsByClassName("costPosition");
 	for(var i =0; i<prices.length; i++){
@@ -218,7 +174,6 @@ function showPrices(){
 		for(var key in products){	
 				if(products.hasOwnProperty(key)){
 					prices[key].innerHTML = "$" + products[key].price;
-					console.log(prices[key]);
 				};
 				
 			};
@@ -229,16 +184,14 @@ function fatal(error) {
 	alert(error);
 }
 
-
 var keys = [];
-var keysUpdate = [];
-var keyinitialise = function(items, keyz){
+var keyinitialise = function(){
 
-for(var k in items){ 
-	keyz.push(k);
+for(var k in products){ 
+	keys.push(k);
 }
-keyz.sort();
-console.log(keyz);
+keys.sort();
+console.log(keys);
 };
 
 function addToCart(productName) {
@@ -252,19 +205,13 @@ function addToCart(productName) {
 		}
 
 	products[productName].quantity -=1;
-	/* console.log((products[productName].product.name) + " added");
-	console.log("Price of " + products[productName].product.name + " is " + products[productName].product.price);
-	console.log("Quantity of " +products[productName].product.name + " in cart is " + cart[productName]) */
-	//console.log(products[productName].quantity);
 	totalPrice += products[productName].price;
 	console.log(totalPrice);
 	document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")"; 
 	var x = document.getElementsByClassName("removeButton");
 	for(var i =0; i<x.length; i++){
-		//console.log("inside");
 		x[keys[i]] = x[i];
 		delete x[i];
-		//console.log(x);
 	};
 	
 	var y = document.getElementsByClassName("addButton");
@@ -272,7 +219,6 @@ function addToCart(productName) {
 		console.log("inside");
 		y[keys[i]] = y[i];
 		delete y[i];
-		//console.log(x);
 	};
 	
 	var z = document.getElementsByClassName("centered");
@@ -320,10 +266,8 @@ function removeFromCart(productName) {
 			
 			var x = document.getElementsByClassName("removeButton");
 			for(var i =0; i<x.length; i++){
-				//console.log("inside");
 				x[keys[i]] = x[i];
 				delete x[i];
-				//console.log(x);
 			};
 	
 	var y = document.getElementsByClassName("addButton");
@@ -331,7 +275,6 @@ function removeFromCart(productName) {
 			console.log("inside");
 			y[keys[i]] = y[i];
 			delete y[i];
-			//console.log(x);
 		};
 		
 		var z = document.getElementsByClassName("centered");
@@ -347,8 +290,6 @@ function removeFromCart(productName) {
 		};
 		
 	if(!(cart.hasOwnProperty(productName))){
-		//console.log(x);
-		//console.log("inside");
 		x[productName].style.display = "none";
 
 		}
@@ -463,11 +404,11 @@ function showCart(){
 
 };
 
-function buttons(produit, put, take) {
+function buttons(product, put, take) {
 	
-	put[produit].addEventListener("click", function() {addToCart(produit);
+	put[product].addEventListener("click", function() {addToCart(product);
 	showCart(); computePrice();});
-	take[produit].addEventListener("click", function() {removeFromCart(produit);
+	take[product].addEventListener("click", function() {removeFromCart(product);
 	showCart(); computePrice();});
 	
 }
@@ -494,5 +435,3 @@ document.addEventListener('keyup', function(e) {
         modal.style.display = "none";
     }
 });
-
-/// Assignment-4 starts
