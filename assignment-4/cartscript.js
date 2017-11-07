@@ -38,7 +38,7 @@ var ajaxGet = function(url, successCallback, errorCallback){
 			xhttp.onload=function() {
 					if (xhttp.status == 200) {
 						var resp = JSON.parse(xhttp.responseText);
-						//console.log(resp.PC1);
+						//console.log(xhttp.responseText);
 						successCallback(resp);
 				}
 				else{
@@ -96,32 +96,57 @@ function checkoutCompare() {
 	
 	var quantityMessage = "";
 	var priceMessage = "";
+	var checkoutMessage = "";
 
-	
+	// Check server update
 	for (var a in cart) {
-							
+		
+		// If quantity of a product on the server is less than what's in the cart, concatenate appropriate message and update cart
 		if (cart[a] > productsCompare[a].quantity) {
 			quantityMessage += "There are only " + productsCompare[a].quantity + " " + a + " in stock.\n";
 			cart[a] = productsCompare[a].quantity;
 		}
-			
+		
+		// If price on server changes, concatenate appropriate message
 		if (products[a].price != productsCompare[a].price) {
 			priceMessage += a + "'s price is now $" + productsCompare[a].price + ".\n";
 		}
+		
+		// Concatenate checkout message
+		checkoutMessage += cart[a] + " " + a + ": $" + productsCompare[a].price + ".\n";
 	}
-						
+	
+	// Add confirmation question in checkout message
+	checkoutMessage += "Confirm?";
+	
+	// Alert user if quantities change
 	if (quantityMessage != "")
 		alert(quantityMessage);
-						
+	
+	// Alert user if prices change
 	if (priceMessage != "")
 		alert(priceMessage);
 		
+	// Update each product
 	for (var a in products)
 		products[a] = productsCompare[a];
 	
+	// Compute price to be displayed on cart button
+	computePrice();
+	document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")"; 
+	
+	// Update prices DOM in HTML
+	showPrices();
+	
+	// Update modal prices and quantities
 	showCart();
 	
-	alert("The total cost is $" + totalPrice);
+	// Display confirmation message
+	var correct = confirm(checkoutMessage);
+	
+	// If user confirms, alert total price
+	if (correct)
+		alert("The total cost is $" + totalPrice);
 	
 }
 	
@@ -315,6 +340,7 @@ function showCart(){
 	var table = document.getElementById("cartTable");
 	var carey = document.getElementById("total");
 
+	// Delete each modal table's child nodes except total price row
 	while (table.hasChildNodes()) {
 		
 		if (table.firstChild === table.lastChild)
@@ -324,6 +350,7 @@ function showCart(){
 		
 	}
 	
+	// Create header node on table for product, quantity, add, remove and price
 	var headerNode = document.createElement("tr");
 	var one = document.createElement("th");
 	var two = document.createElement("th");
@@ -337,50 +364,61 @@ function showCart(){
 	four.innerHTML = "Remove";
 	five.innerHTML = "Price";
 	
+	// Append children to header node
 	headerNode.appendChild(one);
 	headerNode.appendChild(two);
 	headerNode.appendChild(three);
 	headerNode.appendChild(four);
 	headerNode.appendChild(five);
 	
+	// Insert node before total price node on table
 	table.insertBefore(headerNode, table.lastChild);
 	
 	var abutton = {};
 	var rbutton = {};
 	
+	// For each product in the cart...
 	for (var productName in cart) {
 		
-		var newNode = document.createElement("tr");
-		var nom = document.createElement("td");
-		var quant = document.createElement("td");
-		var add = document.createElement("td");
-		abutton[productName] = document.createElement("button");
-		add.appendChild(abutton[productName]);
-		var rem = document.createElement("td");
-		rbutton[productName] = document.createElement("button");
-		rem.appendChild(rbutton[productName]);
-		var prix = document.createElement("td");
+		// If there are products in the cart...
+		if (cart[productName] > 0) {
 		
-		nom.innerHTML = productName;
-		quant.innerHTML = cart[productName];
-		abutton[productName].innerHTML = "+";
-		rbutton[productName].innerHTML = "-";
-		prix.innerHTML = "$" + products[productName].price*cart[productName];
+			// Create a table node for each of them (including children)
+			var newNode = document.createElement("tr");
+			var nom = document.createElement("td");
+			var quant = document.createElement("td");
+			var add = document.createElement("td");
+			abutton[productName] = document.createElement("button");
+			add.appendChild(abutton[productName]);
+			var rem = document.createElement("td");
+			rbutton[productName] = document.createElement("button");
+			rem.appendChild(rbutton[productName]);
+			var prix = document.createElement("td");
 		
-		buttons(productName, abutton, rbutton);
-				
-		newNode.appendChild(nom);
-		newNode.appendChild(quant);
-		newNode.appendChild(add);
-		newNode.appendChild(rem);
-		newNode.appendChild(prix);
+			nom.innerHTML = productName;
+			quant.innerHTML = cart[productName];
+			abutton[productName].innerHTML = "+";
+			rbutton[productName].innerHTML = "-";
+			prix.innerHTML = "$" + products[productName].price*cart[productName];
 		
-		table.insertBefore(newNode, table.lastChild);
+			// Add functionality for add and remove buttons
+			buttons(productName, abutton, rbutton);
+			
+			// Append children to same node
+			newNode.appendChild(nom);
+			newNode.appendChild(quant);
+			newNode.appendChild(add);
+			newNode.appendChild(rem);
+			newNode.appendChild(prix);
+		
+			// Insert this node before total price node in table DOM
+			table.insertBefore(newNode, table.lastChild);
+		}
 		
 	}
 	
+	// Compute price and update appropriate DOM ID
 	computePrice();
-	
 	document.getElementById("totalPrice").innerHTML = "$" + totalPrice;
 	
 	resetTime();
@@ -400,12 +438,14 @@ function showCart(){
 
 	span.onclick = function() {
 		modal.style.display = "none";
+		resetTime();
 	} 
 
 };
 
 function buttons(product, put, take) {
 	
+	// Add addToCart and removeFromCart functionalities for appropriate buttons in modal
 	put[product].addEventListener("click", function() {addToCart(product);
 	showCart(); computePrice();});
 	take[product].addEventListener("click", function() {removeFromCart(product);
@@ -417,6 +457,7 @@ function computePrice() {
 	
 	totalPrice = 0;
 	
+	// Calculate total price for products in cart
 	for (var a in cart) {
 		totalPrice += products[a].price*cart[a];
 	}
