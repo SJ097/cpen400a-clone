@@ -113,7 +113,7 @@ function checkoutCompare() {
 		}
 		
 		// Concatenate checkout message
-		checkoutMessage += cart[a] + " " + a + ": $" + productsCompare[a].price + ".\n";
+		checkoutMessage += cart[a] + " " + a + ": $" + productsCompare[a].price*cart[a] + ".\n";
 	}
 	
 	// Add confirmation question in checkout message
