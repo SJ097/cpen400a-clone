@@ -101,19 +101,25 @@ function checkoutCompare() {
 	// Check server update
 	for (var a in cart) {
 		
-		// If quantity of a product on the server is less than what's in the cart, concatenate appropriate message and update cart
-		if (cart[a] > productsCompare[a].quantity) {
-			quantityMessage += "There are only " + productsCompare[a].quantity + " " + a + " in stock.\n";
-			cart[a] = productsCompare[a].quantity;
-		}
+		// If a certain product in the cart has a quantity of 0, remove it
+		if (cart[a] == 0)
+			delete cart[a];
 		
-		// If price on server changes, concatenate appropriate message
-		if (products[a].price != productsCompare[a].price) {
-			priceMessage += a + "'s price is now $" + productsCompare[a].price + ".\n";
-		}
+		else {
+			// If quantity of a product on the server is less than what's in the cart, concatenate appropriate message and update cart
+			if (cart[a] > productsCompare[a].quantity) {
+				quantityMessage += "There are only " + productsCompare[a].quantity + " " + a + " in stock.\n";
+				cart[a] = productsCompare[a].quantity;
+			}
 		
-		// Concatenate checkout message
-		checkoutMessage += cart[a] + " " + a + ": $" + productsCompare[a].price*cart[a] + ".\n";
+			// If price on server changes, concatenate appropriate message
+			if (products[a].price != productsCompare[a].price) {
+				priceMessage += a + "'s price is now $" + productsCompare[a].price + ".\n";
+			}
+		
+			// Concatenate checkout message
+			checkoutMessage += cart[a] + " " + a + ": $" + productsCompare[a].price*cart[a] + ".\n";
+		}
 	}
 	
 	// Add confirmation question in checkout message
@@ -131,6 +137,12 @@ function checkoutCompare() {
 	for (var a in products)
 		products[a] = productsCompare[a];
 	
+	for (var a in cart) {
+		// If a certain product in the cart has a quantity of 0, remove it
+		if (cart[a] == 0)
+			delete cart[a];
+	}
+	
 	// Compute price to be displayed on cart button
 	computePrice();
 	document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")"; 
@@ -140,6 +152,9 @@ function checkoutCompare() {
 	
 	// Update modal prices and quantities
 	showCart();
+	
+	// If product's quantity is 0, display out of stock
+	showOutOfStock();
 	
 	// Display confirmation message
 	var correct = confirm(checkoutMessage);
@@ -165,7 +180,7 @@ function success(response) {
 	
 	var reponse = JSON.parse(response);
 	
-	console.log(response);
+	//console.log(response);
 			alert(response + "SUCCESS");
 			for(var key in reponse){	
 				if(reponse.hasOwnProperty(key)){
@@ -178,6 +193,7 @@ function success(response) {
 			keyinitialise();
 			showPrices(); // To show the prices of the products
 			showImages();
+			showOutOfStock();
 }
 
 function successModal(response) {
@@ -228,6 +244,48 @@ function showImages(){
 	
 }
 
+function showOutOfStock(){
+	var x = document.getElementsByClassName("removeButton");
+	for(var i =0; i<x.length; i++){
+		x[keys[i]] = x[i];
+		delete x[i];
+	};
+	
+	var y = document.getElementsByClassName("addButton");
+	for(var i =0; i<y.length; i++){
+		//console.log("inside");
+		y[keys[i]] = y[i];
+		delete y[i];
+	};
+	
+	var z = document.getElementsByClassName("centered");
+	for(var i =0; i<z.length; i++){
+		z[keys[i]] = z[i];
+		delete z[i];
+	};
+	
+	var a = document.getElementsByClassName("resizeCart");
+	for(var i =0; i<a.length; i++){
+		a[keys[i]] = a[i];
+		delete a[i];
+	};
+	
+	
+	
+	for(var productName in products){	
+				if(products.hasOwnProperty(productName)){
+					if(products[productName].quantity == 0){
+				//console.log(y);
+				y[productName].style.display = "none";
+				z[productName].style.display = "block";
+				a[productName].style.display = "none";
+
+					}
+				};
+				
+			};
+}
+
 
 
 
@@ -267,7 +325,7 @@ function addToCart(productName) {
 	
 	var y = document.getElementsByClassName("addButton");
 	for(var i =0; i<y.length; i++){
-		console.log("inside");
+		//console.log("inside");
 		y[keys[i]] = y[i];
 		delete y[i];
 	};
@@ -310,8 +368,10 @@ function removeFromCart(productName) {
 				//console.log("inside ");
 				delete cart[productName];
 			}
-			products[productName].quantity +=1;
-			totalPrice -= products[productName].price;
+			if (cart[productName] != 0) {
+				products[productName].quantity +=1;
+				totalPrice -= products[productName].price;
+			}
 			console.log(totalPrice);
 		    document.getElementById("showCart").textContent = "Cart ($" + totalPrice + ")";
 			
