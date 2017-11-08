@@ -37,9 +37,9 @@ var ajaxGet = function(url, successCallback, errorCallback){
 			xhttp.open("GET", url);
 			xhttp.onload=function() {
 					if (xhttp.status == 200) {
-						var resp = JSON.parse(xhttp.responseText);
+						//var resp = JSON.parse(xhttp.responseText);
 						//console.log(xhttp.responseText);
-						successCallback(resp);
+						successCallback(xhttp.responseText);
 				}
 				else{
 					limit++;
@@ -157,13 +157,19 @@ ajaxGet(url,
 		fatal
 	);
 
+// NOTE: For test 2, it seems that the products from the server should NOT be parsed by JSON beforehand...
+// Therefore, please use successModal for test 2 and not success
+// They work the same way, except the successModal input is expected to be parsed by JSON beforehand,
+// while the success input is not, thus they work slightly differently but give the same outcome
 function success(response) {
+	
+	var reponse = JSON.parse(response);
 	
 	console.log(response);
 			alert(response + "SUCCESS");
-			for(var key in response){	
-				if(response.hasOwnProperty(key)){
-					products[key] = response[key];
+			for(var key in reponse){	
+				if(reponse.hasOwnProperty(key)){
+					products[key] = reponse[key];
 					//alert(key);
 				};
 				
@@ -171,6 +177,7 @@ function success(response) {
 			console.log(products);
 			keyinitialise();
 			showPrices(); // To show the prices of the products
+			showImages();
 }
 
 function successModal(response) {
@@ -204,6 +211,25 @@ function showPrices(){
 			};
 	
 }
+
+function showImages(){
+	var imagesdisplay = document.getElementsByClassName("resize");
+	for(var i =0; i<imagesdisplay.length; i++){
+		imagesdisplay[keys[i]] = imagesdisplay[i];
+		delete imagesdisplay[i];
+		};
+		
+		for(var key in products){	
+				if(products.hasOwnProperty(key)){
+					imagesdisplay[key].src = products[key].imageUrl;
+				};
+				
+			};
+	
+}
+
+
+
 
 function fatal(error) {
 	alert(error);
