@@ -95,3 +95,25 @@ db.orders.insertOne(
     total: ""
   }
 )
+
+db.users.insertMany([
+{
+	token : "Xoe2inasd"
+},
+
+{
+	token : "Xoe2inqwe"
+},
+
+{
+	token : "Xoe2infgh"
+},
+
+{
+	token : "Xoe2invbn"
+},
+
+{
+	token : "Xoe2ilkmnui"
+}
+])
