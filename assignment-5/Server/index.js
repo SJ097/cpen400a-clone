@@ -195,30 +195,61 @@ app.post('/checkout', function(request, response) {
 	var filter = request.body.filter;
 	// --
 	
+	var flag = false;
+	var products_obj = "{";
 	
+	var option = getRandomInt(0, 4);
 	
-})
-
-
-
-// --------------------------------------------------
-
-app.get('/products/:productKey', function(request, response) {
-
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  var option = getRandomInt(0,5);
-  if (option < 4) {
-	  if (request.params.productKey in products){
-		  response.json(products[request.params.productKey]);	  
-	  }
-	  else {
-		  response.status(404).send("Product does not exist");
-	  }
-  } else if (option == 4) {
+	if (option < 4) {
+		MongoClient.connect(url, function(err, db) {
+			if (err) throw err;
+			
+			var order = {"cart": JSON.stringify(cart.items), "total": cart.price};
+			
+			db.collection("orders").insertOne(order, function(err, result) {
+				if (err) throw err;
+			})
+			
+			db.collection("products").find({}).toArray(function(err, result) {
+			
+			if (err) throw err;
+			
+			for (var product in result) {
+				var filter = result[product].filters;
+				var productName = result[product].name;
+				var productPrice = result[product].price;
+				var productQuantity = result[product].quantity;
+				var productImage = result[product].imageUrl;
+				
+				if (cart.items[productName]) {
+					
+					productQuantity -= cart.items[productName];
+					
+					var productUpdate = {"name": productName};
+					var newQuantity = { $set: {"quantity": productQuantity}};
+					db.collection("products").updateOne(productUpdate, newQuantity, function(err, result) {
+						if (err) throw err;
+					});
+				}
+			}
+			if (product_filters.indexOf(filter) > -1 || filter == "all") {
+				if (flag == true) products_obj += ',';
+				products_obj += '"' + productNamee + '":{"name":"' + productNname + '","price":';
+				products_obj += productPrice + ',"quantity":' + productQuantity + ',"imageUrl":"';
+				products_obj += productImage + '"}';
+				flag = true;
+            }
+			products_obj += '}';
+			response.json(JSON.parse(products_obj));
+			}
+		});
+	}
+	
+	else if (option == 4) {
     response.status(500).send("An error occurred, please try again");
   }
-})
+	
+});
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
