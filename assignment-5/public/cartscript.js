@@ -52,45 +52,40 @@ var ajaxGet = function(url, successCallback, errorCallback){
 			shelverx();
 		};
 			xhttp.timeout = 3000;
-			 //xhttp.open("GET", url, true);
 			 xhttp.send();
 		};
 		shelverx();
 			 
 }
 
-var ajaxGetCheckout = function(url, successCallback, errorCallback) {
+var ajaxPostCheckout = function() {
 		
-		var limit = 0;
-		
-		function shelverx(){
+		console.log("inside ajaxPostCheckout status");
+	
 			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", url);
+			xhttp.open("POST", "http://localhost:5000/checkout", true);
+			 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xhttp.onload=function() {
 					if (xhttp.status == 200) {
-						var resp = JSON.parse(xhttp.responseText);
-						successCallback(resp);
-											
-						checkoutCompare();
+						var resp = xhttp.responseText;
+						console.log("inside 200 status");
+						computePrice();
 						
 					}
 				else{
-					limit++;
-					errorCallback(xhttp.statusText);
-					if (limit < 7) setTimeout( shelverx, 1000 );
+					console.log("inside else status");
 				}
 				 
 			};
 			xhttp.ontimeout = function() {
-			shelverx();
+			console.log("timeout in ajaxPostCheckout");
 		};
 			xhttp.timeout = 3000;
-			 xhttp.send();
-		};
-		shelverx();
-	
+			xhttp.send("cart="+ JSON.stringify(cart) + "&totalPrice=" + totalPrice + "&user_token=Xoe2inqwe");
 	
 }
+
+
 
 function checkoutCompare() {
 	
@@ -564,3 +559,8 @@ document.addEventListener('keyup', function(e) {
         modal.style.display = "none";
     }
 });
+
+window.onload = function() {
+var b= document.getElementById("checkout");
+b.addEventListener("click", ajaxPostCheckout, false);
+};
